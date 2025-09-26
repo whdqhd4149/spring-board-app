@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UserController {
 
-    private final AppInfo appInfo;
+    
 
     @GetMapping("/user/info")
     public String info(){
@@ -20,11 +20,7 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String login(Model model){
-
-        model.addAttribute(appInfo);
-
-
+    public String login(){
         return "user/login";
     }
 
@@ -34,9 +30,9 @@ public class UserController {
     }
 
     @GetMapping("/user/terms")
-    public String terms(Model model){
+    public String terms(){
 
-        model.addAttribute(appInfo);
+
 
         return "user/terms";
     }
