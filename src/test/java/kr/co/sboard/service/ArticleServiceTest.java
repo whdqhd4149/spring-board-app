@@ -28,7 +28,7 @@ class ArticleServiceTest {
         ArticleDTO articleDTO = ArticleDTO.builder()
                 .title("제목1")
                 .content("내용1")
-                .writer("sboard")
+                .writer("abc12345")
                 .reg_ip("127.0.0.1")
                 .build();
 
