@@ -4,12 +4,14 @@ package kr.co.sboard.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.sboard.dto.ArticleDTO;
 import kr.co.sboard.dto.FileDTO;
-import kr.co.sboard.entity.Article;
+import kr.co.sboard.dto.PageRequestDTO;
+import kr.co.sboard.dto.PageResponseDTO;
 import kr.co.sboard.service.ArticleService;
 import kr.co.sboard.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,7 +26,16 @@ public class ArticleController {
     private final FileService fileService;
 
     @GetMapping("/article/list")
-    public String list(){
+    public String list(Model model, PageRequestDTO pageRequestDTO){
+
+        // JPA
+        //PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
+
+        // Mybatis
+        PageResponseDTO pageResponseDTO = articleService.selectArticleAll(pageRequestDTO);
+
+        model.addAttribute(pageResponseDTO);
+
         return "article/list";
     }
 
@@ -33,13 +44,24 @@ public class ArticleController {
         return "article/modify";
     }
 
-    @GetMapping("/article/searchList")
-    public String searchList(){
+    @GetMapping("/article/search")
+    public String searchList(PageRequestDTO pageRequestDTO, Model model){
+
+        log.info("pageRequestDTO = {}", pageRequestDTO);
+
+        PageResponseDTO pageResponseDTO = articleService.getArticleAll(pageRequestDTO);
+        model.addAttribute(pageResponseDTO);
+
         return "article/searchList";
     }
 
     @GetMapping("/article/view")
-    public String view(){
+    public String view(int ano, Model model){
+        log.info("ano = {}", ano);
+
+        ArticleDTO articleDTO = articleService.getArticle(ano);
+        model.addAttribute("articleDTO", articleDTO);
+
         return "article/view";
     }
 
@@ -47,7 +69,6 @@ public class ArticleController {
     public String write(){
         return "article/write";
     }
-
 
     @PostMapping("/article/write")
     public String write(ArticleDTO articleDTO, HttpServletRequest request){

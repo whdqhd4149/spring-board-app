@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FileRepository extends JpaRepository<File, Integer> {
 
+    Integer fno(int fno);
 }
